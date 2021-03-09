@@ -363,16 +363,47 @@ public class UserDataDao extends JDBCTemplate{
 		return res;
 	}
 	
-	
-	
-	//메인페이지(위치에 따른 날씨정보 확인)
-	public String showWeather() {
+	//메인페이지(추천 스토리)
+	public List<UserDataDto> clothesReco() {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<UserDataDto> res = new ArrayList<UserDataDto>();
 		
-		return null;
-	}
+		String sql = "  ";
+		
 
-	//메인페이지(추천 옷차림)
-	public String clothesReco() {
+		try {
+			pstm = con.prepareStatement(sql);
+			System.out.println("03. query 준비: "+ sql);
+
+			rs = pstm.executeQuery();
+			System.out.println("04. query 실행 및 리턴");
+
+			while(rs.next()) {
+				UserDataDto tmp = new UserDataDto();
+				tmp.setUseridno(rs.getInt(6));
+				tmp.setUserimgname(rs.getString(7));
+				tmp.setUserlike(rs.getInt(9));
+				
+				res.add(tmp);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("3/4 단계 에러");
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstm);
+			close(con);
+			System.out.println("05. db 종료\n");
+		}
+		
+		return res;
+	}
+	
+	//메인페이지(팔로우 피드?)
+	public String showWeather() {
 		
 		return null;
 	}
@@ -400,11 +431,10 @@ public class UserDataDao extends JDBCTemplate{
 				dto.setGroupsq(rs.getInt(3));
 				dto.setTitle(rs.getString(4));
 				dto.setContent(rs.getString(5));
-				dto.setUserid(rs.getString(6));
+				dto.setUseridno(rs.getInt(6));
 				dto.setUserimgname(rs.getNString(7));
-				dto.setUserimg(rs.getString(8));
-				dto.setUserlike(rs.getInt(9));
-				dto.setRegdate(rs.getDate(10));
+				dto.setUserlike(rs.getInt(8));
+				dto.setRegdate(rs.getDate(9));
 				
 				res.add(dto);
 			}
@@ -445,11 +475,10 @@ public class UserDataDao extends JDBCTemplate{
 				res.setGroupsq(rs.getInt(3));
 				res.setTitle(rs.getString(4));
 				res.setContent(rs.getString(5));
-				res.setUserid(rs.getString(6));
+				res.setUseridno(rs.getInt(6));
 				res.setUserimgname(rs.getNString(7));
-				res.setUserimg(rs.getString(8));
-				res.setUserlike(rs.getInt(9));
-				res.setRegdate(rs.getDate(10));
+				res.setUserlike(rs.getInt(8));
+				res.setRegdate(rs.getDate(9));
 			}
 			
 		} catch (SQLException e) {
@@ -565,11 +594,10 @@ public class UserDataDao extends JDBCTemplate{
 				tmp.setGroupsq(rs.getInt(3));
 				tmp.setTitle(rs.getString(4));
 				tmp.setContent(rs.getString(5));
-				tmp.setUserid(rs.getString(6));
+				tmp.setUseridno(rs.getInt(6));
 				tmp.setUserimgname(rs.getString(7));
-				tmp.setUserimg(rs.getString(8));
-				tmp.setUserlike(rs.getInt(9));
-				tmp.setRegdate(rs.getDate(10));
+				tmp.setUserlike(rs.getInt(8));
+				tmp.setRegdate(rs.getDate(9));
 
 				res.add(tmp);
 			}
